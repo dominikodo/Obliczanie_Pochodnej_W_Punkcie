@@ -43,22 +43,16 @@ public class PochodnaWPunkcie {
         //System.out.println(listaPunktow);
     }
 
-    void obliczRoznicaZwykla() {
+    void obliczRoznicaZwykla(double x) {//metoda obliczająca pochodna w punkcie x za pomocą różnicy zwykłej
 
         int i = listaPunktow.size();
-
         double[][] roznicaZwykla;
-
         double h =listaPunktow.get(1).getX()-listaPunktow.get(0).getX();
-
         roznicaZwykla = new double[i - 1][i];
-
-
 
         for (int k = 0; k < i-1; k++) {
 
-            int n = i - k - 1;
-
+            int n = i-k-1;
             for (int j = 0; j < n; j++) {
                 //System.out.println("test");
                 if(k==0) {
@@ -66,35 +60,90 @@ public class PochodnaWPunkcie {
                     System.out.println("Różnica zwykła: " + roznicaZwykla[k][j]);
                 }
                 else{
-
                     roznicaZwykla[k][j] = roznicaZwykla[k-1][j+1] - roznicaZwykla[k-1][j];
                     System.out.println("Różnica zwykła "+ k +" " + roznicaZwykla[k][j]);
-
                 }
+            }
+        }
 
+        double wynik=0;
+        for(int k=0; k<i-1; k++){
+
+            if(listaPunktow.get(k).getX()==x){
+
+                for(int j=0; j<i-k; j++){
+                    System.out.println("test: "+roznicaZwykla[j][k]);
+                    if (j%2==0){
+                        if (j==0) {
+                            wynik += roznicaZwykla[j][k];
+                        }
+                        else {
+                            wynik += (1.0/(j + 1.0)) * roznicaZwykla[j][k];
+                        }
+                    }
+                    else{
+                        wynik += ((-1.0)/(j + 1.0)) * roznicaZwykla[j][k];
+                    }
+                    //System.out.println("test wynik: "+wynik);
+                }
             }
 
         }
-
-
-        /*
-        for(int j=0; j<i;  j++){
-
-            if(j==0){
-                roznicaZwykla[j]=listaPunktow.get(j+1).getY()-listaPunktow.get(j).getY();
-            }
-            else if(j==i-1){
-                roznicaZwykla[j]=listaPunktow.get(j).getY()-listaPunktow.get(j-1).getY();
-            }
-            else{
-                roznicaZwykla[j]=(listaPunktow.get(j+1).getY()-listaPunktow.get(j-1).getY())/2;
-            }
-            System.out.println("Różnica zwykła: "+roznicaZwykla[j]);
-        }*/
-
-
+        wynik=wynik*(1/h);
+        System.out.println("Wartość pochodnej przy użyciu metody różnicy zwykłej wynosi: " + wynik);
 
     }
+    void obliczRoznicaWsteczna(double x){
+
+        int i = listaPunktow.size();
+        double[][] roznicaWsteczna;
+        double h =listaPunktow.get(1).getX()-listaPunktow.get(0).getX();
+        roznicaWsteczna = new double[i - 1][i];
+
+        for (int k = 0; k < i-1; k++) {
+
+            int n = i-k-1;
+            for (int j = 0; j < n; j++) {
+                //System.out.println("test");
+                if(k==0) {
+                    roznicaWsteczna[k][j] = listaPunktow.get(j + 1).getY() - listaPunktow.get(j).getY();
+
+                    System.out.println("Różnica wsteczna: " + roznicaWsteczna[k][j]);
+                }
+                else{
+                    roznicaWsteczna[k][j] = roznicaWsteczna[k-1][j+1] - roznicaWsteczna[k-1][j];
+                    System.out.println("Różnica wsteczna "+ k +" " + roznicaWsteczna[k][j]);
+                }
+            }
+        }
+        double wynik=0;
+        for(int k=0; k<i-1; k++){
+
+            if(listaPunktow.get(k).getX()==x){
+
+                for(int j=0; j<i-k; j++){
+                    System.out.println("test: "+roznicaWsteczna[j][k]);
+                    if (j%2==0){
+                        if (j==0) {
+                            wynik += roznicaWsteczna[j][k];
+                        }
+                        else {
+                            wynik += (1.0/(j + 1.0)) * roznicaWsteczna[j][k];
+                        }
+                    }
+                    else{
+                        wynik += ((-1.0)/(j + 1.0)) * roznicaWsteczna[j][k];
+                    }
+                    //System.out.println("test wynik: "+wynik);
+                }
+            }
+
+        }
+        wynik=wynik*(1/h);
+        System.out.println("Wartość pochodnej przy użyciu metody różnicy wstecznej wynosi: " + wynik);
+
+    }
+
 
 
 }
