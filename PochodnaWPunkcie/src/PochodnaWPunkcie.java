@@ -43,6 +43,10 @@ public class PochodnaWPunkcie {
         //System.out.println(listaPunktow);
     }
 
+    ArrayList getListaPunktow(){
+        return listaPunktow;
+    }
+
     void obliczRoznicaZwykla(double x) {//metoda obliczająca pochodna w punkcie x za pomocą różnicy zwykłej
 
         int i = listaPunktow.size();
@@ -71,7 +75,7 @@ public class PochodnaWPunkcie {
 
             if(listaPunktow.get(k).getX()==x){
 
-                for(int j=0; j<i-k; j++){
+                for(int j=0; j<i-k-1; j++){
                     if (j%2==0){
                         if (j==0) {
                             wynik += roznicaZwykla[j][k];
@@ -89,7 +93,7 @@ public class PochodnaWPunkcie {
 
         }
         wynik=wynik*(1/h);
-        System.out.println("Wartość pochodnej przy użyciu metody różnicy zwykłej wynosi: " + wynik);
+        System.out.println("Wartość pochodnej w punkcie \""+ x +"\" przy użyciu metody różnicy zwykłej wynosi: " + wynik);
 
     }
     void obliczRoznicaWsteczna(double x){
@@ -106,7 +110,7 @@ public class PochodnaWPunkcie {
                 //System.out.println("test11");
                 if(k==0) {
                     roznicaWsteczna[k][j] = listaPunktow.get(j).getY() - listaPunktow.get(j-1).getY();
-                   // System.out.println("Różnica wsteczna: " + roznicaWsteczna[k][j]);
+                    // System.out.println("Różnica wsteczna: " + roznicaWsteczna[k][j]);
                 }
                 else{
                     roznicaWsteczna[k][j] = roznicaWsteczna[k-1][j] - roznicaWsteczna[k-1][j-1];
@@ -120,7 +124,7 @@ public class PochodnaWPunkcie {
 
             if(listaPunktow.get(k).getX()==x){
 
-                for(int j=0; j<i-k; j++){
+                for(int j=0; j<i-k-1; j++){
 
                     if (j==0) {
 
@@ -133,15 +137,17 @@ public class PochodnaWPunkcie {
             }
         }
         wynik=wynik*(1/h);
-        System.out.println("Wartość pochodnej przy użyciu metody różnicy wstecznej wynosi: " + wynik);
+        System.out.println("Wartość pochodnej w punkcie "+ x +" przy użyciu metody różnicy wstecznej wynosi: " + wynik);
     }
 
     void obliczRoznicaCentralnej(double x){
 
+        /*
         int i = listaPunktow.size();
         double[][] roznicaCentralna;
         double h =listaPunktow.get(1).getX()-listaPunktow.get(0).getX();
         roznicaCentralna = new double[i - 1][i];
+
 
         for (int k = 0; k < i-1; k++) {
             //System.out.println("test2");
@@ -179,10 +185,46 @@ public class PochodnaWPunkcie {
         }
         wynik=wynik*(1/h);
         System.out.println("Wartość pochodnej przy użyciu metody różnicy centralnej wynosi: " + wynik);
+        }*/
+
+
+        int i = listaPunktow.size();
+        double[][] roznicaCentralna;
+        double h = listaPunktow.get(1).getX() - listaPunktow.get(0).getX();
+        roznicaCentralna = new double[i - 1][i];
+
+        for (int k = 0; k < i - 1; k++) {
+            int n = i - k - 1;
+            for (int j = i - 1; j > 0 + k; j--) {
+                if (k == 0) {
+                    roznicaCentralna[k][j] = listaPunktow.get(j).getY() - listaPunktow.get(j - 1).getY();
+                    //System.out.println("Różnica centralna: " + roznicaCentralna[k][j]);
+                } else {
+                    roznicaCentralna[k][j] = roznicaCentralna[k - 1][j] - roznicaCentralna[k - 1][j - 1];
+                    //System.out.println("Różnica centralna " + k + " " + roznicaCentralna[k][j]);
+                }
+            }
+        }
+
+        double wynik = 0;
+        for (int k = 0; k < i - 1; k++) {
+            if (listaPunktow.get(k).getX() == x) {
+                for (int j = 0; j < i - k-1; j++) {
+                    if (j == 0) {
+                        wynik += roznicaCentralna[j][k];
+                    } else {
+                        wynik += (1.0 / (j + 1.0)) * roznicaCentralna[j][k];
+                    }
+                }
+            }
+        }
+        wynik = wynik * (1 / h);
+        System.out.println("Wartość pochodnej w punkcie \""+ x +"\" przy użyciu metody różnicy centralnej wynosi: " + wynik);
 
 
 
 
     }
+
 
 }

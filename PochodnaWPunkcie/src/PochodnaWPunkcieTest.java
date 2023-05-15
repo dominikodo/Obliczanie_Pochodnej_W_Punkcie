@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PochodnaWPunkcieTest {
@@ -8,6 +9,10 @@ public class PochodnaWPunkcieTest {
         while (wylacz==false) {
 
             double x=0;
+
+            ArrayList<Punkt> listaPunktow;
+            listaPunktow = new ArrayList<>();
+
 
             PochodnaWPunkcie pochodnaWPunkcie = new PochodnaWPunkcie();
             Scanner scanner = new Scanner(System.in);
@@ -20,13 +25,23 @@ public class PochodnaWPunkcieTest {
 
             pochodnaWPunkcie.odczytZPliku(nazwaPliku);
 
-            System.out.println("Podaj x dla którego ma zostać obliczona pochodna: ");
+            listaPunktow=pochodnaWPunkcie.getListaPunktow();
 
-            x=scanner.nextDouble();
+            for(int i=0;i<listaPunktow.size();i++) {
+                pochodnaWPunkcie.obliczRoznicaZwykla(listaPunktow.get(i).getX());
+            }
 
-            pochodnaWPunkcie.obliczRoznicaZwykla(x);
+            System.out.println("");
 
-            pochodnaWPunkcie.obliczRoznicaWsteczna(x);
+            for(int i=0;i<listaPunktow.size();i++) {
+                pochodnaWPunkcie.obliczRoznicaWsteczna(listaPunktow.get(i).getX());
+            }
+
+            System.out.println("");
+
+            for(int i=0;i<listaPunktow.size();i++) {
+                pochodnaWPunkcie.obliczRoznicaCentralnej(listaPunktow.get(i).getX());
+            }
 
             //C:\Users\piese\Desktop\Metody Obliczeniowe\Obliczanie_Pochodnej_W_Punkcie\PochodnaWPunkcie\plik.txt
         }
